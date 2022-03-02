@@ -1,0 +1,1669 @@
+setwd("/Users/alessandrodanzi/R")
+install.packages("raster")
+install.packages("rgdal")
+
+###make use of the library
+library(raster)
+library(sp)
+library(rgdal)
+
+
+#load satellite images
+#If we read a RasterStack object into R using the raster() function, it only reads in the first band.
+#stack or brick, brick faster
+
+###############aug2019
+aug2019poly3brick <-brick("S2R_poly3_aug2019.TIF")
+aug2019poly4brick <-brick("S2R_poly4_aug2019.TIF")
+aug2019poly5brick <-brick("S2R_poly5_aug2019.TIF")
+#list(aug2019poly3brick)
+
+#no min max values
+aug2019p3 <- setMinMax(aug2019poly3brick)
+aug2019p4 <- setMinMax(aug2019poly4brick)
+aug2019p5 <- setMinMax(aug2019poly5brick)
+
+#merge 3 polygons together
+aug2019_3poly <- list(aug2019p3, aug2019p4, aug2019p5)
+aug2019 <- do.call(merge, aug2019_3poly)
+
+#save merge
+writeRaster(aug2019, "aug2019_merge", format = "GTiff")
+
+####import and merge the other timeperiods, setMinMax
+
+###############mar2020
+#stack or brick, brick faster
+mar2020poly3brick <-brick("S2R_poly3_mar2020.TIF")
+mar2020poly4brick <-brick("S2R_poly4_mar2020.TIF")
+mar2020poly5brick <-brick("S2R_poly5_mar2020.TIF")
+#list(mar2020poly3brick)
+
+#no min max values
+mar2020p3 <- setMinMax(mar2020poly3brick)
+mar2020p4 <- setMinMax(mar2020poly4brick)
+mar2020p5 <- setMinMax(mar2020poly5brick)
+
+#merge 3 polygons together
+mar2020_3poly <- list(mar2020p3, mar2020p4, mar2020p5)
+mar2020 <- do.call(merge, mar2020_3poly)
+#save merge
+writeRaster(mar2020, "mar2020_merge", format = "GTiff")
+
+
+###############aug2020
+#stack or brick, brick faster
+aug2020poly3brick <-brick("S2R_poly3_aug2020.TIF")
+aug2020poly4brick <-brick("S2R_poly4_aug2020.TIF")
+aug2020poly5brick <-brick("S2R_poly5_aug2020.TIF")
+#list(aug2020poly3brick)
+
+#no min max values
+aug2020p3 <- setMinMax(aug2020poly3brick)
+aug2020p4 <- setMinMax(aug2020poly4brick)
+aug2020p5 <- setMinMax(aug2020poly5brick)
+
+#merge 3 polygons together
+aug2020_3poly <- list(aug2020p3, aug2020p4, aug2020p5)
+aug2020 <- do.call(merge, aug2020_3poly)
+#save merge
+writeRaster(aug2020, "aug2020_merge", format = "GTiff")
+
+
+###############aug2021
+#stack or brick, brick faster
+aug2021poly3brick <-brick("S2R_poly3_aug2021.TIF")
+aug2021poly4brick <-brick("S2R_poly4_aug2021.TIF")
+aug2021poly5brick <-brick("S2R_poly5_aug2021.TIF")
+#list(aug2021poly3brick)
+
+#no min max values
+aug2021p3 <- setMinMax(aug2021poly3brick)
+aug2021p4 <- setMinMax(aug2021poly4brick)
+aug2021p5 <- setMinMax(aug2021poly5brick)
+
+#merge 3 polygons together
+aug2021_3poly <- list(aug2021p3, aug2021p4, aug2021p5)
+aug2021 <- do.call(merge, aug2021_3poly)
+#save merge
+writeRaster(aug2021, "aug2021_merge", format = "GTiff")
+
+###############################################################################
+##I later added 3 more polygons for each moment in time
+
+#stack or brick, brick faster
+###############aug2019
+aug2019poly1brick <-brick("S2R_poly1_aug2019.TIF")
+aug2019poly2brick <-brick("S2R_poly2_aug2019.TIF")
+aug2019poly6brick <-brick("S2R_poly6_aug2019.TIF")
+
+#no min max values
+aug2019p1 <- setMinMax(aug2019poly1brick)
+aug2019p2 <- setMinMax(aug2019poly2brick)
+aug2019p6 <- setMinMax(aug2019poly6brick)
+
+#merge 6 polygons together (3 new, 3 already merged in 1 file)
+aug2019 <-brick("aug2019_merge.TIF")
+aug2019_6poly <- list(aug2019p1, aug2019p2, aug2019p6,aug2019)
+aug2019 <- do.call(merge, aug2019_6poly)
+
+#save merge
+writeRaster(aug2019, "aug2019_6polygons", format = "GTiff")
+
+#stack or brick, brick faster
+###############mar2020
+mar2020poly1brick <-brick("S2R_poly1_mar2020.TIF")
+mar2020poly2brick <-brick("S2R_poly2_mar2020.TIF")
+mar2020poly6brick <-brick("S2R_poly6_mar2020.TIF")
+
+#no min max values
+mar2020p1 <- setMinMax(mar2020poly1brick)
+mar2020p2 <- setMinMax(mar2020poly2brick)
+mar2020p6 <- setMinMax(mar2020poly6brick)
+
+#merge 6 polygons together (3 new, 3 already merged in 1 file)
+mar2020 <-brick("mar2020_merge.TIF")
+mar2020_6poly <- list(mar2020p1, mar2020p2, mar2020p6,mar2020)
+mar2020 <- do.call(merge, mar2020_6poly)
+
+#save merge
+writeRaster(mar2020, "mar2020_6polygons", format = "GTiff")
+
+#stack or brick, brick faster
+###############aug2020
+aug2020poly1brick <-brick("S2R_poly1_aug2020.TIF")
+aug2020poly2brick <-brick("S2R_poly2_aug2020.TIF")
+aug2020poly6brick <-brick("S2R_poly6_aug2020.TIF")
+
+#no min max values
+aug2020p1 <- setMinMax(aug2020poly1brick)
+aug2020p2 <- setMinMax(aug2020poly2brick)
+aug2020p6 <- setMinMax(aug2020poly6brick)
+
+#merge 6 polygons together (3 new, 3 already merged in 1 file)
+aug2020 <-brick("aug2020_merge.TIF")
+aug2020_6poly <- list(aug2020p1, aug2020p2, aug2020p6,aug2020)
+aug2020 <- do.call(merge, aug2020_6poly)
+
+#save merge
+writeRaster(aug2020, "aug2020_6polygons", format = "GTiff")
+
+#stack or brick, brick faster
+###############aug2021
+aug2021poly1brick <-brick("S2R_poly1_aug2021.TIF")
+aug2021poly2brick <-brick("S2R_poly2_aug2021.TIF")
+aug2021poly6brick <-brick("S2R_poly6_aug2021.TIF")
+
+#no min max values
+aug2021p1 <- setMinMax(aug2021poly1brick)
+aug2021p2 <- setMinMax(aug2021poly2brick)
+aug2021p6 <- setMinMax(aug2021poly6brick)
+
+#merge 6 polygons together (3 new, 3 already merged in 1 file)
+aug2021 <-brick("aug2021_merge.TIF")
+aug2021_6poly <- list(aug2021p1, aug2021p2, aug2021p6,aug2021)
+aug2021 <- do.call(merge, aug2021_6poly)
+
+#save merge
+writeRaster(aug2021, "aug2021_6polygons", format = "GTiff")
+
+###########################################################
+########TRANSFOR TO INTEGER to use it in ARCMAP############
+#dNBR1K.TIF has been created in ArcMap with the range of the categories of fire severity
+dNBR_1k <-brick("dNBR_1k.TIF")
+dNBR_1k
+#no min max
+dNBR_1k_mM <- setMinMax(dNBR_1k)
+dNBR_1k_mM
+#min max are wrong (possibly include areas not considered in AOI
+
+# Define and query thresholds 
+min <- -1482
+max <- 1694
+
+dNBR_1k_mM2 <- dNBR_1k_mM
+dNBR_1k_mM2[dNBR_1k_mM <= min] <- NA
+dNBR_1k_mM2[dNBR_1k_mM >= max] <- NA
+
+dNBR_1k_mM2int<-as.integer(dNBR_1k_mM2)
+writeRaster(dNBR_1k_mM2int, "dNBR_1k_mM2int2",datatype='INT2S', format = "GTiff")
+
+#############################################################
+#upload shapefile created in ArcMap with squares for each vegetation category
+rp_squares_final <- shapefile("rp_veg_squares_final")
+
+#extract mean ndvi for each square
+
+rp_squares_aug2019_mean_ndvi_f<-extract(aug2019$aug2019_6polygons.6,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_mar2020_mean_ndvi_f<-extract(mar2020$mar2020_6polygons.6,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_aug2020_mean_ndvi_f<-extract(aug2020$aug2020_6polygons.6,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_aug2021_mean_ndvi_f<-extract(aug2021$aug2021_6polygons.6,rp_squares_final,fun=mean,df=T, na.rm=T)
+
+#extract mean nbr for each square
+
+rp_squares_aug2019_mean_nbr_f<-extract(aug2019$aug2019_6polygons.7,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_mar2020_mean_nbr_f<-extract(mar2020$mar2020_6polygons.7,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_aug2020_mean_nbr_f<-extract(aug2020$aug2020_6polygons.7,rp_squares_final,fun=mean,df=T, na.rm=T)
+rp_squares_aug2021_mean_nbr_f<-extract(aug2021$aug2021_6polygons.7,rp_squares_final,fun=mean,df=T, na.rm=T)
+
+###I have one file for each moment with column "ID" and column "layer.6" that is NDVI
+##I rename layer say to then merge the 4 moments and not get confused
+
+names(rp_squares_aug2019_mean_ndvi_f)[names(rp_squares_aug2019_mean_ndvi_f) == 'aug2019_6polygons.6'] <- 'aug2019ndvi_mean_f'
+names(rp_squares_mar2020_mean_ndvi_f)[names(rp_squares_mar2020_mean_ndvi_f) == 'mar2020_6polygons.6'] <- 'mar2020ndvi_mean_f'
+names(rp_squares_aug2020_mean_ndvi_f)[names(rp_squares_aug2020_mean_ndvi_f) == 'aug2020_6polygons.6'] <- 'aug2020ndvi_mean_f'
+names(rp_squares_aug2021_mean_ndvi_f)[names(rp_squares_aug2021_mean_ndvi_f) == 'aug2021_6polygons.6'] <- 'aug2021ndvi_mean_f'
+
+#####merge possible only 2 by 2
+
+rp_squares_aug2019mar2020_mean_ndvi_f<-merge(rp_squares_aug2019_mean_ndvi_f,rp_squares_mar2020_mean_ndvi_f,by="ID")
+rp_squares_aug2020aug2021_mean_ndvi_f<-merge(rp_squares_aug2020_mean_ndvi_f,rp_squares_aug2021_mean_ndvi_f,by="ID")
+rp_squares_4moments_mean_ndvi_f<-merge(rp_squares_aug2019mar2020_mean_ndvi_f,rp_squares_aug2020aug2021_mean_ndvi_f,by="ID")
+
+##I rename layer to then merge the 4 moments and not get confused
+names(rp_squares_aug2019_mean_nbr_f)[names(rp_squares_aug2019_mean_nbr_f) == 'aug2019_6polygons.7'] <- 'aug2019nbr_mean_f'
+names(rp_squares_mar2020_mean_nbr_f)[names(rp_squares_mar2020_mean_nbr_f) == 'mar2020_6polygons.7'] <- 'mar2020nbr_mean_f'
+names(rp_squares_aug2020_mean_nbr_f)[names(rp_squares_aug2020_mean_nbr_f) == 'aug2020_6polygons.7'] <- 'aug2020nbr_mean_f'
+names(rp_squares_aug2021_mean_nbr_f)[names(rp_squares_aug2021_mean_nbr_f) == 'aug2021_6polygons.7'] <- 'aug2021nbr_mean_f'
+
+#####merge possible only 2 by 2
+
+rp_squares_aug2019mar2020_mean_nbr_f<-merge(rp_squares_aug2019_mean_nbr_f,rp_squares_mar2020_mean_nbr_f,by="ID")
+rp_squares_aug2020aug2021_mean_nbr_f<-merge(rp_squares_aug2020_mean_nbr_f,rp_squares_aug2021_mean_nbr_f,by="ID")
+rp_squares_4moments_mean_nbr_f<-merge(rp_squares_aug2019mar2020_mean_nbr_f,rp_squares_aug2020aug2021_mean_nbr_f,by="ID")
+
+##I also calculate dNBR (delta Normalize Burn Ratio) as difference of NBRaug2019 e NBRmar2020 to see the severity of the fires in different AOI
+#add one column
+rp_squares_4moments_mean_nbr_f$aug2019mar2020_mean_dnbr_f <- rp_squares_4moments_mean_nbr_f[,2] - rp_squares_4moments_mean_nbr_f[,3]
+
+##I also calculate dNDVI in 3 moments: as difference between NDVIaug2019 and NDVImar2020,NDVIaug2019 and NDVIaug2020,NDVIaug2019 and NDVIaug2020  to see how fluctuates over time
+#add three columns
+rp_squares_4moments_mean_ndvi_f$aug2019mar2020_mean_dndvi_f <- rp_squares_4moments_mean_ndvi_f[,2] - rp_squares_4moments_mean_ndvi_f[,3]
+rp_squares_4moments_mean_ndvi_f$aug2019aug2020_mean_dndvi_f <- rp_squares_4moments_mean_ndvi_f[,2] - rp_squares_4moments_mean_ndvi_f[,4]
+rp_squares_4moments_mean_ndvi_f$aug2019aug2021_mean_dndvi_f <- rp_squares_4moments_mean_ndvi_f[,2] - rp_squares_4moments_mean_ndvi_f[,5]
+
+
+##I merge NDVI and NBR in one single layer
+rp_squares_4moments_variables_f<-merge(rp_squares_4moments_mean_ndvi_f,rp_squares_4moments_mean_nbr_f,by="ID")
+
+#add a new column with category divided by aug2019-mar2020 dNBR values (usgs proposed categories)
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(197:256)] <-"eou3" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(122:136)] <-"eob4" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(107:121)] <-"eob5" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(92:106)] <-"eob6" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(77:91)] <-"eob7" 
+
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(377:436)] <-"ecu3" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(182:196)] <-"ecb4" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(167:181)] <-"ecb5" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(152:166)] <-"ecb6" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(137:151)] <-"ecb7" 
+
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(317:376)] <-"rou3" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(31:41)] <-"rob4" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(28:30)] <-"rob5" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(16:27)] <-"rob6" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(1:15)] <-"rob7" 
+
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(257:316)] <-"rcu3" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(62:76)] <-"rcb4" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(60:61)] <-"rcb5" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(57:59)] <-"rcb6" 
+rp_squares_4moments_variables_f$veg_cat_n[rp_squares_4moments_variables_f$ID%in%(42:56)] <-"rcb7" 
+
+##add a new column with category number to have an easier way to select in the next steps. (%in% fixed the error of longer object length is not a multiple of shorter object length)
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(137:196)] <-"ecb" #0
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(377:436)] <-"ecu" #1
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(77:136)] <-"eob" #2
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(197:256)] <-"eou" #3 
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(42:76)] <-"rcb" #4
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(257:316)] <-"rcu" #5
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(1:41)] <-"rob" #6
+rp_squares_4moments_variables_f$veg_cat_t[rp_squares_4moments_variables_f$ID%in%(317:376)] <-"rou" #7
+
+   
+#add a new column with category divided by aug2019-mar2020 dNBR values (usgs proposed categories)
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eou3")] <-"eo" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob4")] <-"eo" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob5")] <-"eo" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob6")] <-"eo" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob7")] <-"eo" 
+
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecu3")] <-"ec" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb4")] <-"ec" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb5")] <-"ec" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb6")] <-"ec" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb7")] <-"ec" 
+
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rou3")] <-"ro" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob4")] <-"ro" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob5")] <-"ro" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob6")] <-"ro" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob7")] <-"ro" 
+
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcu3")] <-"rc" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb4")] <-"rc" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb5")] <-"rc" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb6")] <-"rc" 
+rp_squares_4moments_variables_f$veg_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb7")] <-"rc" 
+
+#add a new column with category divided by aug2019-mar2020 dNBR values only number (usgs proposed categories)
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eou3")] <-"3" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob4")] <-"4" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob5")] <-"5" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob6")] <-"6" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("eob7")] <-"7" 
+
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecu3")] <-"3" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb4")] <-"4" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb5")] <-"5" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb6")] <-"6" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("ecb7")] <-"7" 
+
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rou3")] <-"3" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob4")] <-"4" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob5")] <-"5" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob6")] <-"6" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rob7")] <-"7" 
+
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcu3")] <-"3" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb4")] <-"4" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb5")] <-"5" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb6")] <-"6" 
+rp_squares_4moments_variables_f$burnt_cat[rp_squares_4moments_variables_f$veg_cat_n%in%("rcb7")] <-"7" 
+
+###BURNT CATEGORY NAME FOR LEGEND####
+rp_squares_4moments_variables_f$burnt_cat_name[rp_squares_4moments_variables_f$burnt_cat%in%("3")] <-"Unburnt" 
+rp_squares_4moments_variables_f$burnt_cat_name[rp_squares_4moments_variables_f$burnt_cat%in%("4")] <-"Low Severity" 
+rp_squares_4moments_variables_f$burnt_cat_name[rp_squares_4moments_variables_f$burnt_cat%in%("5")] <-"Mid-Low Severity" 
+rp_squares_4moments_variables_f$burnt_cat_name[rp_squares_4moments_variables_f$burnt_cat%in%("6")] <-"Mid-High Severity" 
+rp_squares_4moments_variables_f$burnt_cat_name[rp_squares_4moments_variables_f$burnt_cat%in%("7")] <-"High Severity" 
+##
+
+
+################################################################
+#####ERROR dNBR (check for outliers for each burnt severity category
+#####(no errors, before error in rob4 for 6 points))
+##BURNT 
+error_dNBR_burnt_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "4"| burnt_cat == "5" | burnt_cat == "6" | burnt_cat == "7", aug2019mar2020_mean_dnbr_f < (0.1) )
+#BURNT4
+error_dNBR_burnt4_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "4", aug2019mar2020_mean_dnbr_f < (0.1) | aug2019mar2020_mean_dnbr_f > (0.269))
+#BURNT5
+error_dNBR_burnt5_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "5", aug2019mar2020_mean_dnbr_f < (0.270) | aug2019mar2020_mean_dnbr_f > (0.439))
+#BURNT6
+error_dNBR_burnt6_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "6", aug2019mar2020_mean_dnbr_f < (0.440) | aug2019mar2020_mean_dnbr_f > (0.659))
+#BURNT7
+error_dNBR_burnt7_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "7", aug2019mar2020_mean_dnbr_f < (0.660) | aug2019mar2020_mean_dnbr_f > (1.300))
+
+
+##UNBURNT (error in rob4 for 6 points
+error_dNBR_unburnt_f <- filter(rp_squares_4moments_variables_f, burnt_cat == "3", aug2019mar2020_mean_dnbr_f < (-0.1) & aug2019mar2020_mean_dnbr_f > (0.099))
+
+###########################################################################
+###########################################################################
+#more packages
+install.packages("tidyverse")
+install.packages("plotrix")
+install.packages("cowplot")
+install.packages("gridExtra")
+library(gridExtra)
+library(ggplot2)
+library(cowplot)
+library(dplyr)
+library(tidyverse)
+library(plotrix)
+
+
+###########################################PLOTS################################
+# histogram BURNT SQUARES with added parameters
+par(mfrow=c(2,2))
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="ecb"],
+main="dNBR_ecb_aug2019mar2020",
+xlim=c(-0.5,1.5),
+xlab="dNBR after fire",
+col="coral3"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="eob"],
+main="dNBR_eob_aug2019mar2020",
+xlim=c(-0.5,1.5),
+xlab="dNBR after fire",
+col="coral3"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="rcb"],
+main="dNBR_rcb_aug2019mar2020",
+xlim=c(-0.5,1.5),
+xlab="dNBR after fire",
+col="coral3"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="rob"],
+main="dNBR_rob_aug2019mar2020",
+xlim=c(-0.5,1.5),
+xlab="dNBR after fire",
+col="coral3"
+)
+title('dNBR Burned', outer = TRUE, line = -2, cex.main = 2)
+par(mfrow=c(1,1))
+
+# histogram UNBURNT SQUARES with added parameters
+par(mfrow=c(2,2))
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="ecu"],
+main="Eucalyptus closed",
+xlim=c(-0.5,1),
+xlab="dNBR after fire",
+col="cornflowerblue"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="eou"],
+main="Eucalyptus open",
+xlim=c(-0.5,1),
+xlab="dNBR after fire",
+col="cornflowerblue"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="rcu"],
+main="Rainforest closed",
+xlim=c(-0.5,1),
+xlab="dNBR after fire",
+col="cornflowerblue"
+)
+hist(rp_squares_4moments_variables_f$aug2019mar2020_mean_dnbr_f[rp_squares_4moments_variables_f$veg_cat_t=="rou"],
+main="Rainforest open",
+xlim=c(-0.5,1),
+xlab="dNBR after fire",
+col="cornflowerblue"
+)
+
+title('dNBR Unburned', outer = TRUE, line = -2, cex.main = 2)
+par(mfrow=c(1,1))
+
+                                           ########GGPLOT#######
+##########################################################################################
+#dictionary
+#add title
+#+ ggtitle("Your title"))
+#add x y labels
+#+labs(y= "y axis name", x = "x axis name")
+#legend title
+#+ labs(colour = "Iris species")
+#SET STILE
+mynamestheme <- theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))
+)
+###theme no legend
+mynamestheme_nolegend <- theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.position = "none",
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))
+)
+###theme legend bottom
+mynamestheme_legendbottom <- theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.position = "bottom",legend.box = "horizontal",
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))
+)
+
+#########################by vegetation group burnt/unburnt#######################################
+###ADD ANOVA (PREDICTORS:CLIMATE)
+
+##### create list by category veg_cat_n
+ec_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("ecu3", "ecb4", "ecb5", "ecb6", "ecb7"))
+eo_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("eou3", "eob4", "eob5", "eob6", "eob7"))
+rc_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rcu3", "rcb4", "rcb5", "rcb6", "rcb7"))
+ro_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rou3", "rob4", "rob5", "rob6", "rob7"))
+
+ec_f_order_bu <- factor(ec_f$veg_cat_t, levels=c("ecu","ecb"), labels=c("Unburned","Burned"))
+
+sp_ec_veg_cat_t_ndvi_a2019a2020_f <- ggplot(ec_f, aes(x = aug2019ndvi_mean_f, y = aug2020ndvi_mean_f, color = ec_f_order_bu)) +
+  geom_point()+ xlim(0, 1)+ ylim(0, 1)+
+  geom_abline(intercept =0 , slope = 1)
+sp_ec_veg_cat_t_ndvi_a2019a2020_f <- (sp_ec_veg_cat_t_ndvi_a2019a2020_f + mynamestheme + ggtitle ("Eucalyptus closed burnt/unburnt") + xlab("NDVI 2019") +
+  ylab("NDVI 2020")+  labs(colour = "Burned/Unburned"))
+  
+  
+eo_f_order_bu <- factor(eo_f$veg_cat_t, levels=c("eou","eob"), labels=c("Unburned","Burned"))
+
+ sp_eo_veg_cat_t_ndvi_a2019a2020_f <- ggplot(eo_f, aes(x = aug2019ndvi_mean_f, y = aug2020ndvi_mean_f, color = eo_f_order_bu)) +
+  geom_point()+ xlim(0, 1)+ ylim(0, 1)+
+  geom_abline(intercept =0 , slope = 1)
+sp_eo_veg_cat_t_ndvi_a2019a2020_f <- (sp_eo_veg_cat_t_ndvi_a2019a2020_f + mynamestheme + ggtitle ("Eucalyptus open burnt/unburnt") + xlab("NDVI 2019") +
+  ylab("NDVI 2020")+  labs(colour = "Burned/Unburned"))
+ 
+ 
+rc_f_order_bu <- factor(rc_f$veg_cat_t, levels=c("rcu","rcb"), labels=c("Unburned","Burned"))
+
+sp_rc_veg_cat_t_ndvi_a2019a2020_f <- ggplot(rc_f, aes(x = aug2019ndvi_mean_f, y = aug2020ndvi_mean_f, color = rc_f_order_bu)) +
+  geom_point()+ xlim(0, 1)+ ylim(0, 1)+
+  geom_abline(intercept =0 , slope = 1)
+sp_rc_veg_cat_t_ndvi_a2019a2020_f <- (sp_rc_veg_cat_t_ndvi_a2019a2020_f + mynamestheme + ggtitle ("Rainforest closed burnt/unburnt") + xlab("NDVI 2019") +
+  ylab("NDVI 2020")+  labs(colour = "Burned/Unburned")) 
+ 
+ro_f_order_bu <- factor(ro_f$veg_cat_t, levels=c("rou","rob"), labels=c("Unburned","Burned"))
+
+sp_ro_veg_cat_t_ndvi_a2019a2020_f <- ggplot(ro_f, aes(x = aug2019ndvi_mean_f, y = aug2020ndvi_mean_f, color = ro_f_order_bu)) +
+  geom_point()+ xlim(0, 1)+ ylim(0, 1)+
+  geom_abline(intercept =0 , slope = 1)
+sp_ro_veg_cat_t_ndvi_a2019a2020_f <- (sp_ro_veg_cat_t_ndvi_a2019a2020_f + mynamestheme + ggtitle ("Rainforest open burnt/unburnt") + xlab("NDVI 2019") +
+  ylab("NDVI 2020")+  labs(colour = "Burned/Unburned")) 
+  
+grid.arrange(sp_ec_veg_cat_t_ndvi_a2019a2020_f, sp_eo_veg_cat_t_ndvi_a2019a2020_f,sp_rc_veg_cat_t_ndvi_a2019a2020_f,sp_ro_veg_cat_t_ndvi_a2019a2020_f, ncol=2)
+
+####################################################################################################################
+#####################BOXPLOT 4 moments/veg burnt-unburnt ##reordered x#####################################
+#######FIX ERROR. bp_ec axes name
+
+level_order_ndvi_f <- c('aug2019ndvi_mean_f', 'mar2020ndvi_mean_f', 'aug2020ndvi_mean_f','aug2021ndvi_mean_f') #this vector might be useful for other plots/analyses
+
+bp_ec_veg_cat_t_ndvi_4moments_f <- ec_f %>% select(aug2019ndvi_mean_f, mar2020ndvi_mean_f, aug2020ndvi_mean_f, aug2021ndvi_mean_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019ndvi_mean_f,mar2020ndvi_mean_f,aug2020ndvi_mean_f,aug2021ndvi_mean_f), names_to = "Var", values_to = "Val") %>%
+ggplot(aes(x = factor(Var,level=level_order_ndvi_f), y = Val, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ec_veg_cat_t_ndvi_4moments_f <- (bp_ec_veg_cat_t_ndvi_4moments_f + mynamestheme + ggtitle ("Eucalyptus closed burnt/unburnt") + xlab("Time") +
+  ylab("NDVI"))+ scale_x_discrete(labels=c( "aug2019ndvi_mean_f"="aug2019","mar2020ndvi_mean_f"="mar2020",
+                               "aug2020ndvi_mean_f"="aug2020","aug2021ndvi_mean_f"="aug2021"))
+bp_eo_veg_cat_t_ndvi_4moments_f <- eo_f%>% select(aug2019ndvi_mean_f, mar2020ndvi_mean_f, aug2020ndvi_mean_f, aug2021ndvi_mean_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019ndvi_mean_f,mar2020ndvi_mean_f,aug2020ndvi_mean_f,aug2021ndvi_mean_f), names_to = "Var", values_to = "Val") %>%
+ggplot(aes(x = factor(Var,level=level_order_ndvi_f), y = Val, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_eo_veg_cat_t_ndvi_4moments_f <- (bp_eo_veg_cat_t_ndvi_4moments_f + mynamestheme + ggtitle ("Eucalyptus open burnt/unburnt") + xlab("Time") +
+  ylab("NDVI")) + scale_x_discrete(labels=c( "aug2019ndvi_mean_f"="aug2019","mar2020ndvi_mean_f"="mar2020",
+                               "aug2020ndvi_mean_f"="aug2020","aug2021ndvi_mean_f"="aug2021"))
+bp_rc_veg_cat_t_ndvi_4moments_f <- rc_f%>% select(aug2019ndvi_mean_f, mar2020ndvi_mean_f, aug2020ndvi_mean_f, aug2021ndvi_mean_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019ndvi_mean_f,mar2020ndvi_mean_f,aug2020ndvi_mean_f,aug2021ndvi_mean_f), names_to = "Var", values_to = "Val") %>%
+ggplot(aes(x = factor(Var,level=level_order_ndvi_f), y = Val, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_rc_veg_cat_t_ndvi_4moments_f <- (bp_rc_veg_cat_t_ndvi_4moments_f + mynamestheme + ggtitle ("Rainforest closed burnt/unburnt") + xlab("Time") +
+  ylab("NDVI"))+ scale_x_discrete(labels=c( "aug2019ndvi_mean_f"="aug2019","mar2020ndvi_mean_f"="mar2020",
+                               "aug2020ndvi_mean_f"="aug2020","aug2021ndvi_mean_f"="aug2021"))
+bp_ro_veg_cat_t_ndvi_4moments_f <- ro_f%>% select(aug2019ndvi_mean_f, mar2020ndvi_mean_f, aug2020ndvi_mean_f, aug2021ndvi_mean_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019ndvi_mean_f,mar2020ndvi_mean_f,aug2020ndvi_mean_f,aug2021ndvi_mean_f), names_to = "Var", values_to = "Val") %>%
+ggplot(aes(x = factor(Var,level=level_order_ndvi_f), y = Val, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ro_veg_cat_t_ndvi_4moments_f <- (bp_ro_veg_cat_t_ndvi_4moments_f + mynamestheme + ggtitle ("Rainforest open burnt/unburnt") + xlab("Time") +
+  ylab("NDVI"))+ scale_x_discrete(labels=c( "aug2019ndvi_mean_f"="aug2019","mar2020ndvi_mean_f"="mar2020",
+                               "aug2020ndvi_mean_f"="aug2020","aug2021ndvi_mean_f"="aug2021"))
+
+
+grid.arrange(bp_ec_veg_cat_t_ndvi_4moments_f, bp_eo_veg_cat_t_ndvi_4moments_f,bp_rc_veg_cat_t_ndvi_4moments_f,bp_ro_veg_cat_t_ndvi_4moments_f, ncol=2)
+
+#########################################LINES dNDVI#################################################################
+####################################dNDVI_f by veg_cat_t LINES ########################################################   
+
+ 
+lp_veg_cat_t_dndvi_f <- rp_squares_4moments_variables_f %>%
+  group_by(veg_cat_t) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat_t)
+          
+#Summarizing and trying to make it long
+lp_veg_cat_t_dndvi_f <- lp_veg_cat_t_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_veg_cat_t_dndvi_f <- pivot_longer(lp_veg_cat_t_dndvi_f, cols = c(2:4),
+               names_to = "Vardndvi",
+               values_to = c("Valdndvi"))
+  lp_veg_cat_t_dndvi_f <- pivot_longer(lp_veg_cat_t_dndvi_f, cols = c(2:4),
+               names_to = "VardndviSD",
+               values_to = c("ValdndviSD"))
+   lp_veg_cat_t_dndvi_f <- pivot_longer(lp_veg_cat_t_dndvi_f, cols = c(2:4),
+               names_to = "VardndviSE",
+               values_to = c("ValdndviSE"))
+               
+           lp_veg_cat_t_dndvi_f    %>%
+  mutate(Vardndvi = factor(Vardndvi, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+ggplot(data = lp_veg_cat_t_dndvi_f, aes(x =Vardndvi, y = Valdndvi, group = veg_cat_t, colour = veg_cat_t)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valdndvi-ValdndviSE, ymax=Valdndvi+ValdndviSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dndvi_f", title = "dndvi variation over time") 
+  ##########################################################################################
+   #########################################LINES dNDVI#################################################################
+####################################dNDVI_f by veg_cat LINES (PLOT BY FIRE INTENSITY) ########################################################   
+##WITH STANDARD ERROR OF THE MEAN
+
+#####
+##### create list by category burnt_cat
+b3_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("3"))
+b4_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("4"))
+b5_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("5"))
+b6_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("6"))
+b7_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("7"))
+
+lp_b3_veg_cat_dndvi_f <- b3_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b3_veg_cat_dndvi_f <- lp_b3_veg_cat_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b3_veg_cat_vardndvi_f <- pivot_longer(lp_b3_veg_cat_dndvi_f, cols = c(2:4),
+               names_to = "VarNDVI",
+               values_to = c("ValNDVI"))
+  lp_b3_veg_cat_vardndvi_f <- pivot_longer(lp_b3_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b3_veg_cat_vardndvi_f <- pivot_longer(lp_b3_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b3_veg_cat_vardndvi_f    %>%
+  mutate(VarNDVI = factor(VarNDVI, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+plotlp_b3_veg_cat_vardndvi_f <- ggplot(data = lp_b3_veg_cat_vardndvi_f, aes(x =VarNDVI, y = ValNDVI, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValNDVI-ValSE, ymax=ValNDVI+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNDVI", title = "Unburned") 
+                              
+                              
+
+ #################################################################################################################################
+
+lp_b4_veg_cat_dndvi_f <- b4_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b4_veg_cat_dndvi_f <- lp_b4_veg_cat_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b4_veg_cat_vardndvi_f <- pivot_longer(lp_b4_veg_cat_dndvi_f, cols = c(2:4),
+               names_to = "VarNDVI",
+               values_to = c("ValNDVI"))
+  lp_b4_veg_cat_vardndvi_f <- pivot_longer(lp_b4_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b4_veg_cat_vardndvi_f <- pivot_longer(lp_b4_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b4_veg_cat_vardndvi_f    %>%
+  mutate(VarNDVI = factor(VarNDVI, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+plotlp_b4_veg_cat_vardndvi_f <- ggplot(data = lp_b4_veg_cat_vardndvi_f, aes(x =VarNDVI, y = ValNDVI, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValNDVI-ValSE, ymax=ValNDVI+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNDVI", title = "Low Severity") 
+                              
+   #################################################################################################################################
+
+lp_b5_veg_cat_dndvi_f <- b5_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b5_veg_cat_dndvi_f <- lp_b5_veg_cat_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b5_veg_cat_vardndvi_f <- pivot_longer(lp_b5_veg_cat_dndvi_f, cols = c(2:4),
+               names_to = "VarNDVI",
+               values_to = c("ValNDVI"))
+  lp_b5_veg_cat_vardndvi_f <- pivot_longer(lp_b5_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b5_veg_cat_vardndvi_f <- pivot_longer(lp_b5_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b5_veg_cat_vardndvi_f    %>%
+  mutate(VarNDVI = factor(VarNDVI, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+plotlp_b5_veg_cat_vardndvi_f <- ggplot(data = lp_b5_veg_cat_vardndvi_f, aes(x =VarNDVI, y = ValNDVI, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValNDVI-ValSE, ymax=ValNDVI+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNDVI", title = "Mid-Low Severity")                            
+   #################################################################################################################################
+
+lp_b6_veg_cat_dndvi_f <- b6_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b6_veg_cat_dndvi_f <- lp_b6_veg_cat_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b6_veg_cat_vardndvi_f <- pivot_longer(lp_b6_veg_cat_dndvi_f, cols = c(2:4),
+               names_to = "VarNDVI",
+               values_to = c("ValNDVI"))
+  lp_b6_veg_cat_vardndvi_f <- pivot_longer(lp_b6_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b6_veg_cat_vardndvi_f <- pivot_longer(lp_b6_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b6_veg_cat_vardndvi_f    %>%
+  mutate(VarNDVI = factor(VarNDVI, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+plotlp_b6_veg_cat_vardndvi_f <- ggplot(data = lp_b6_veg_cat_vardndvi_f, aes(x =VarNDVI, y = ValNDVI, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValNDVI-ValSE, ymax=ValNDVI+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNDVI", title = "Mid-High Severity")                            
+  
+  
+    #################################################################################################################################
+
+lp_b7_veg_cat_dndvi_f <- b7_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b7_veg_cat_dndvi_f <- lp_b7_veg_cat_dndvi_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b7_veg_cat_vardndvi_f <- pivot_longer(lp_b7_veg_cat_dndvi_f, cols = c(2:4),
+               names_to = "VarNDVI",
+               values_to = c("ValNDVI"))
+  lp_b7_veg_cat_vardndvi_f <- pivot_longer(lp_b7_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b7_veg_cat_vardndvi_f <- pivot_longer(lp_b7_veg_cat_vardndvi_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b7_veg_cat_vardndvi_f    %>%
+  mutate(VarNDVI = factor(VarNDVI, levels = c("aug2019mar2020_mean_dndvi_f_mean", "aug2019aug2020_mean_dndvi_f_mean", "aug2019aug2021_mean_dndvi_f_mean")))
+  
+
+plotlp_b7_veg_cat_vardndvi_f <- ggplot(data = lp_b7_veg_cat_vardndvi_f, aes(x =VarNDVI, y = ValNDVI, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValNDVI-ValSE, ymax=ValNDVI+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dndvi_f_mean', 'aug2019aug2020_mean_dndvi_f_mean', 'aug2019aug2021_mean_dndvi_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNDVI", title = "High Severity")                        
+                                                            
+
+grid.arrange(plotlp_b3_veg_cat_vardndvi_f , plotlp_b4_veg_cat_vardndvi_f, ncol=1)
+grid.arrange(plotlp_b5_veg_cat_vardndvi_f,plotlp_b6_veg_cat_vardndvi_f, ncol=1)
+plot(plotlp_b7_veg_cat_vardndvi_f)
+grid.arrange(plotlp_b3_veg_cat_vardndvi_f , plotlp_b4_veg_cat_vardndvi_f,plotlp_b5_veg_cat_vardndvi_f,plotlp_b6_veg_cat_vardndvi_f,plotlp_b7_veg_cat_vardndvi_f, ncol=2)
+
+###################BOXPLOT dNDVI (not mean) divided by BURNT SEVERITY
+level_order_dndvi_f <- c('aug2019mar2020_mean_dndvi_f','aug2019aug2020_mean_dndvi_f','aug2019aug2021_mean_dndvi_f') #this vector might be useful for other plots/analyses
+
+bp_b3_veg_cat_dndvi_f <- b3_f%>% group_by(veg_cat) %>%select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f), names_to = "VardNDVI", values_to = "ValdNDVI") %>%
+ggplot(aes(x = factor(VardNDVI,level=level_order_dndvi_f), y = ValdNDVI, fill = veg_cat)) +
+  geom_boxplot()
+bp_b3_veg_cat_dndvi_f <- (bp_b3_veg_cat_dndvi_f + mynamestheme + ggtitle ("dNDVI Unburned") + xlab("Period") +
+  ylab("dNDVI")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dndvi_f"="p1","aug2019aug2020_mean_dndvi_f"="p2",
+                               "aug2019aug2021_mean_dndvi_f"="p3")))
+
+bp_b4_veg_cat_dndvi_f <- b4_f%>% group_by(veg_cat) %>%select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f), names_to = "VardNDVI", values_to = "ValdNDVI") %>%
+ggplot(aes(x = factor(VardNDVI,level=level_order_dndvi_f), y = ValdNDVI, fill = veg_cat)) +
+  geom_boxplot()
+bp_b4_veg_cat_dndvi_f <- (bp_b4_veg_cat_dndvi_f + mynamestheme + ggtitle ("dNDVI Low Severity") + xlab("Period") +
+  ylab("dNDVI")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dndvi_f"="p1","aug2019aug2020_mean_dndvi_f"="p2",
+                               "aug2019aug2021_mean_dndvi_f"="p3")))
+
+bp_b5_veg_cat_dndvi_f <- b5_f%>% group_by(veg_cat) %>%select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f), names_to = "VardNDVI", values_to = "ValdNDVI") %>%
+ggplot(aes(x = factor(VardNDVI,level=level_order_dndvi_f), y = ValdNDVI, fill = veg_cat)) +
+  geom_boxplot()
+bp_b5_veg_cat_dndvi_f <- (bp_b5_veg_cat_dndvi_f + mynamestheme + ggtitle ("dNDVI Medium-Low Severity") + xlab("Period") +
+  ylab("dNDVI")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dndvi_f"="p1","aug2019aug2020_mean_dndvi_f"="p2",
+                               "aug2019aug2021_mean_dndvi_f"="p3")))
+
+bp_b6_veg_cat_dndvi_f <- b6_f%>% group_by(veg_cat) %>%select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f), names_to = "VardNDVI", values_to = "ValdNDVI") %>%
+ggplot(aes(x = factor(VardNDVI,level=level_order_dndvi_f), y = ValdNDVI, fill = veg_cat)) +
+  geom_boxplot()
+bp_b6_veg_cat_dndvi_f <- (bp_b6_veg_cat_dndvi_f + mynamestheme + ggtitle ("dNDVI Medium-High Severity") + xlab("Period") +
+  ylab("dNDVI")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dndvi_f"="p1","aug2019aug2020_mean_dndvi_f"="p2",
+                               "aug2019aug2021_mean_dndvi_f"="p3")))
+
+ bp_b7_veg_cat_dndvi_f <- b7_f%>% group_by(veg_cat) %>%select(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f, veg_cat) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dndvi_f,aug2019aug2020_mean_dndvi_f,aug2019aug2021_mean_dndvi_f), names_to = "VardNDVI", values_to = "ValdNDVI") %>%
+ggplot(aes(x = factor(VardNDVI,level=level_order_dndvi_f), y = ValdNDVI, fill = veg_cat)) +
+  geom_boxplot()
+bp_b7_veg_cat_dndvi_f <- (bp_b7_veg_cat_dndvi_f + mynamestheme + ggtitle ("dNDVI High Severity") + xlab("Period") +
+  ylab("dNDVI")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dndvi_f"="p1","aug2019aug2020_mean_dndvi_f"="p2",
+                               "aug2019aug2021_mean_dndvi_f"="p3")))
+
+                                                                                            
+grid.arrange(bp_b3_veg_cat_dndvi_f, bp_b4_veg_cat_dndvi_f,bp_b5_veg_cat_dndvi_f,bp_b6_veg_cat_dndvi_f,bp_b7_veg_cat_dndvi_f, ncol=2)
+
+
+#########################################dNBR#################################################################
+#conflict with extract from tidyr
+.rs.unloadPackage("tidyr")
+rp_squares_aug2019_mean_nbr<-extract(aug2019$aug2019_6polygons.7,rp_squares,fun=mean,df=T, na.rm=T)
+rp_squares_mar2020_mean_nbr<-extract(mar2020$mar2020_6polygons.7,rp_squares,fun=mean,df=T, na.rm=T)
+rp_squares_aug2020_mean_nbr<-extract(aug2020$aug2020_6polygons.7,rp_squares,fun=mean,df=T, na.rm=T)
+rp_squares_aug2021_mean_nbr<-extract(aug2021$aug2021_6polygons.7,rp_squares,fun=mean,df=T, na.rm=T)
+
+
+##I also calculate dNBR (delta Normalize Burn Ratio) as difference of NBRaug2019 e NBRmar2020 to see the severity of the fires in different AOI
+#add one column
+#add one column
+rp_squares_4moments_variables_f$aug2019aug2020_mean_dnbr_f <- rp_squares_4moments_variables_f[,9] - rp_squares_4moments_variables_f[,11]
+rp_squares_4moments_variables_f$aug2019aug2021_mean_dnbr_f <- rp_squares_4moments_variables_f[,9] - rp_squares_4moments_variables_f[,12]
+library(tidyverse)
+library(tidyr)
+#########################################LINES dNBR#################################################################
+####################################dNBR_f by veg_cat_t LINES ########################################################   
+
+lp_veg_cat_t_dnbr_f <- rp_squares_4moments_variables_f %>%
+  group_by(veg_cat_t) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat_t)
+          
+#Summarizing and trying to make it long
+lp_veg_cat_t_dnbr_f <- lp_veg_cat_t_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_veg_cat_t_dnbr_f <- pivot_longer(lp_veg_cat_t_dnbr_f, cols = c(2:4),
+               names_to = "VardNBR",
+               values_to = c("ValdNBR"))
+  lp_veg_cat_t_dnbr_f <- pivot_longer(lp_veg_cat_t_dnbr_f, cols = c(2:4),
+               names_to = "VardNBRSD",
+               values_to = c("ValdNBRSD"))
+   lp_veg_cat_t_dnbr_f <- pivot_longer(lp_veg_cat_t_dnbr_f, cols = c(2:4),
+               names_to = "VardNBRSE",
+               values_to = c("ValdNBRSE"))
+               
+           lp_veg_cat_t_dnbr_f    %>%
+  mutate(VardNBR = factor(VardNBR, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+ggplot(data = lp_veg_cat_t_dnbr_f, aes(x =VardNBR, y = ValdNBR, group = veg_cat_t, colour = veg_cat_t)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValdNBR-ValdNBRSE, ymax=ValdNBR+ValdNBRSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "dNBR variation over time") 
+  
+#####################BOXPLOT dNBR 4 moments/veg burnt-unburnt #####################################
+#############ADD ANOVA (PREDICTORS:CLIMATE), CHANGE LEGEND LABELS/TITLE
+ec_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("ecu3", "ecb4", "ecb5", "ecb6", "ecb7"))
+eo_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("eou3", "eob4", "eob5", "eob6", "eob7"))
+rc_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rcu3", "rcb4", "rcb5", "rcb6", "rcb7"))
+ro_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rou3", "rob4", "rob5", "rob6", "rob7"))
+
+level_order_dnbr_f <- c('aug2019mar2020_mean_dnbr_f','aug2019aug2020_mean_dnbr_f','aug2019aug2021_mean_dnbr_f') #this vector might be useful for other plots/analyses
+
+bp_ec_veg_cat_t_dnbr_f <- ec_f%>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ec_veg_cat_t_dnbr_f <- (bp_ec_veg_cat_t_dnbr_f + mynamestheme + ggtitle ("Eucalyptus closed burnt/unburnt") +
+  ylab("dnbr")+ scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f', 'aug2019aug2020_mean_dnbr_f', 'aug2019aug2021_mean_dnbr_f'), labels=c("p1","p2",
+                              "p3"))+ scale_y_continuous() +
+  labs (x = "Period", y = "dNBR", title = "Eucalyptus closed burnt/unburnt"))  
+                              
+                    
+bp_eo_veg_cat_t_dnbr_f <- eo_f%>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_eo_veg_cat_t_dnbr_f <- (bp_eo_veg_cat_t_dnbr_f + mynamestheme + ggtitle ("Eucalyptus open burnt/unburnt") + 
+  ylab("dNBR")+ scale_x_discrete(name="Period",c('aug2019mar2020_mean_dnbr_f', 'aug2019aug2020_mean_dnbr_f', 'aug2019aug2021_mean_dnbr_f'), labels=c("p1","p2",
+                              "p3")))
+
+bp_rc_veg_cat_t_dnbr_f <- rc_f%>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_rc_veg_cat_t_dnbr_f <- (bp_rc_veg_cat_t_dnbr_f + mynamestheme + ggtitle ("Rainforest closed burnt/unburnt") + 
+  ylab("dNBR")+ scale_x_discrete(name="Period",c('aug2019mar2020_mean_dnbr_f', 'aug2019aug2020_mean_dnbr_f', 'aug2019aug2021_mean_dnbr_f'), labels=c("p1","p2",
+                              "p3")))
+
+bp_ro_veg_cat_t_dnbr_f <- ro_f%>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ro_veg_cat_t_dnbr_f <- (bp_ro_veg_cat_t_dnbr_f + mynamestheme + ggtitle ("Rainforest open burnt/unburnt") + 
+  ylab("dNBR")+ scale_x_discrete(name="Period",c('aug2019mar2020_mean_dnbr_f', 'aug2019aug2020_mean_dnbr_f', 'aug2019aug2021_mean_dnbr_f'), labels=c("p1","p2",
+                              "p3")))
+
+ grid.arrange(bp_ec_veg_cat_t_dnbr_f, bp_eo_veg_cat_t_dnbr_f,bp_rc_veg_cat_t_dnbr_f,bp_ro_veg_cat_t_dnbr_f, ncol=2)
+ 
+ #################################################################################################################################
+ ####################################dNBR_f by veg_cat LINES (PLOT BY FIRE INTENSITY) ########################################################   
+##WITH STANDARD ERROR OF THE MEAN
+##### create list by category burnt_cat
+b3_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("3"))
+b4_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("4"))
+b5_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("5"))
+b6_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("6"))
+b7_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("7"))
+
+lp_b3_veg_cat_dnbr_f <- b3_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b3_veg_cat_dnbr_f <- lp_b3_veg_cat_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b3_veg_cat_vardnbr_f <- pivot_longer(lp_b3_veg_cat_dnbr_f, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b3_veg_cat_vardnbr_f <- pivot_longer(lp_b3_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b3_veg_cat_vardnbr_f <- pivot_longer(lp_b3_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b3_veg_cat_vardnbr_f    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b3_veg_cat_vardnbr_f <- ggplot(data = lp_b3_veg_cat_vardnbr_f, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) + 
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) +                               
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "Unburned")  
+ #################################################################################################################################
+
+lp_b4_veg_cat_dnbr_f <- b4_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b4_veg_cat_dnbr_f <- lp_b4_veg_cat_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b4_veg_cat_vardnbr_f <- pivot_longer(lp_b4_veg_cat_dnbr_f, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b4_veg_cat_vardnbr_f <- pivot_longer(lp_b4_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b4_veg_cat_vardnbr_f <- pivot_longer(lp_b4_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b4_veg_cat_vardnbr_f    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b4_veg_cat_vardnbr_f <- ggplot(data = lp_b4_veg_cat_vardnbr_f, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "Low Severity")  
+                              
+   #################################################################################################################################
+
+lp_b5_veg_cat_dnbr_f <- b5_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b5_veg_cat_dnbr_f <- lp_b5_veg_cat_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b5_veg_cat_vardnbr_f <- pivot_longer(lp_b5_veg_cat_dnbr_f, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b5_veg_cat_vardnbr_f <- pivot_longer(lp_b5_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b5_veg_cat_vardnbr_f <- pivot_longer(lp_b5_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b5_veg_cat_vardnbr_f    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b5_veg_cat_vardnbr_f <- ggplot(data = lp_b5_veg_cat_vardnbr_f, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "Mid-Low Severity")                             
+   #################################################################################################################################
+
+lp_b6_veg_cat_dnbr_f <- b6_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b6_veg_cat_dnbr_f <- lp_b6_veg_cat_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b6_veg_cat_vardnbr_f <- pivot_longer(lp_b6_veg_cat_dnbr_f, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b6_veg_cat_vardnbr_f <- pivot_longer(lp_b6_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b6_veg_cat_vardnbr_f <- pivot_longer(lp_b6_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b6_veg_cat_vardnbr_f    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b6_veg_cat_vardnbr_f <- ggplot(data = lp_b6_veg_cat_vardnbr_f, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "Mid-High Severity")                          
+  
+  
+    #################################################################################################################################
+
+lp_b7_veg_cat_dnbr_f <- b7_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,aug2019aug2020_mean_dnbr_f,aug2019aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b7_veg_cat_dnbr_f <- lp_b7_veg_cat_dnbr_f %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b7_veg_cat_vardnbr_f <- pivot_longer(lp_b7_veg_cat_dnbr_f, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b7_veg_cat_vardnbr_f <- pivot_longer(lp_b7_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b7_veg_cat_vardnbr_f <- pivot_longer(lp_b7_veg_cat_vardnbr_f, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b7_veg_cat_vardnbr_f    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "aug2019aug2020_mean_dnbr_f_mean", "aug2019aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b7_veg_cat_vardnbr_f <- ggplot(data = lp_b7_veg_cat_vardnbr_f, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'aug2019aug2020_mean_dnbr_f_mean', 'aug2019aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "High Severity")                       
+                                                            
+
+grid.arrange(plotlp_b3_veg_cat_vardnbr_f , plotlp_b4_veg_cat_vardnbr_f, ncol=1)
+grid.arrange(plotlp_b5_veg_cat_vardnbr_f,plotlp_b6_veg_cat_vardnbr_f, ncol=1)
+plot(plotlp_b7_veg_cat_vardnbr_f)
+grid.arrange(plotlp_b3_veg_cat_vardnbr_f , plotlp_b4_veg_cat_vardnbr_f,plotlp_b5_veg_cat_vardnbr_f,plotlp_b6_veg_cat_vardnbr_f,plotlp_b7_veg_cat_vardnbr_f, ncol=3)
+
+##################################################################################################################
+MISSING BOXPLOT dNBR divided by burnt severity
+
+##I also calculate dNDB (delta Normalize Burn Ratio) as difference of sequent moments 
+#add one column
+#add one column
+rp_squares_4moments_variables_f$mar2020aug2020_mean_dnbr_f <- rp_squares_4moments_variables_f[,10] - rp_squares_4moments_variables_f[,11]
+rp_squares_4moments_variables_f$aug2020aug2021_mean_dnbr_f <- rp_squares_4moments_variables_f[,11] - rp_squares_4moments_variables_f[,12]
+rp_squares_4moments_variables_f$aug2019aug2020_mean_dnbr_f <- rp_squares_4moments_variables_f[,9] - rp_squares_4moments_variables_f[,11]
+
+####################################################################################################################
+#I calculate dNBR not as before (prefire - other moments in time) but as difference of sequent moments
+
+rp_squares_4moments_variables_f$mar2020aug2020_mean_dnbr_f <- rp_squares_4moments_variables_f[,10] - rp_squares_4moments_variables_f[,11]
+rp_squares_4moments_variables_f$aug2020aug2021_mean_dnbr_f <- rp_squares_4moments_variables_f[,11] - rp_squares_4moments_variables_f[,12]
+rp_squares_4moments_variables_f$aug2019aug2020_mean_dnbr_f <- rp_squares_4moments_variables_f[,9] - rp_squares_4moments_variables_f[,11]
+#########################################LINES dNDVI#################################################################
+####################################dNDVI_f by veg_cat_t LINES ########################################################   
+##ADD STANDARD ERROR OF THE MEAN
+
+
+lp_veg_cat_t_dnbr_f2 <- rp_squares_4moments_variables_f %>%
+  group_by(veg_cat_t) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat_t)
+          
+#Summarizing and trying to make it long
+lp_veg_cat_t_dnbr_f2 <- lp_veg_cat_t_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_veg_cat_t_dnbr_f2 <- pivot_longer(lp_veg_cat_t_dnbr_f2, cols = c(2:4),
+               names_to = "VardNBR",
+               values_to = c("ValdNBR"))
+  lp_veg_cat_t_dnbr_f2 <- pivot_longer(lp_veg_cat_t_dnbr_f2, cols = c(2:4),
+               names_to = "VardNBRSD",
+               values_to = c("ValdNBRSD"))
+   lp_veg_cat_t_dnbr_f2 <- pivot_longer(lp_veg_cat_t_dnbr_f2, cols = c(2:4),
+               names_to = "VardNBRSE",
+               values_to = c("ValdNBRSE"))
+               
+           lp_veg_cat_t_dnbr_f    %>%
+  mutate(VardNBR = factor(VardNBR, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+ggplot(data = lp_veg_cat_t_dnbr_f2, aes(x =VardNBR, y = ValdNBR, group = veg_cat_t, colour = veg_cat_t)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=ValdNBR-ValdNBRSE, ymax=ValdNBR+ValdNBRSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dNBR", title = "dNBR variation over time") 
+  
+#####################BOXPLOT 4 moments/veg burnt-unburnt dNBR ##reordered x#####################################
+
+ec_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("ecu3", "ecb4", "ecb5", "ecb6", "ecb7"))
+eo_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("eou3", "eob4", "eob5", "eob6", "eob7"))
+rc_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rcu3", "rcb4", "rcb5", "rcb6", "rcb7"))
+ro_f<-dplyr::filter(rp_squares_4moments_variables_f, veg_cat_n %in% c("rou3", "rob4", "rob5", "rob6", "rob7"))
+
+level_order_dnbr_f2 <- c('aug2019mar2020_mean_dnbr_f','mar2020aug2020_mean_dnbr_f','aug2020aug2021_mean_dnbr_f') #this vector might be useful for other plots/analyses
+
+bp_ec_veg_cat_t_dnbr_f2 <- ec_f%>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f2), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ec_veg_cat_t_dnbr_f2 <- (bp_ec_veg_cat_t_dnbr_f2 + mynamestheme + ggtitle ("Eucalyptus closed burnt/unburnt") + xlab("Time") +
+  ylab("dNBR")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dnbr_f"="p1","mar2020aug2020_mean_dnbr_f"="p2",
+                               "aug2020aug2021_mean_dnbr_f"="p3")))
+
+
+bp_eo_veg_cat_t_dnbr_f2 <- eo_f%>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f2), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_eo_veg_cat_t_dnbr_f2 <- (bp_eo_veg_cat_t_dnbr_f2 + mynamestheme + ggtitle ("Eucalyptus open burnt/unburnt") + xlab("Time") +
+  ylab("dNBR")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dnbr_f"="p1","mar2020aug2020_mean_dnbr_f"="p2",
+                               "aug2020aug2021_mean_dnbr_f"="p3")))
+
+bp_rc_veg_cat_t_dnbr_f2 <- rc_f%>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f2), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_rc_veg_cat_t_dnbr_f2 <- (bp_rc_veg_cat_t_dnbr_f2 + mynamestheme + ggtitle ("Rainforest closed burnt/unburnt") + xlab("Time") +
+  ylab("dNBR")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dnbr_f"="p1","mar2020aug2020_mean_dnbr_f"="p2",
+                               "aug2020aug2021_mean_dnbr_f"="p3")))
+
+bp_ro_veg_cat_t_dnbr_f2 <- ro_f%>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat_t) %>%
+ pivot_longer(., cols = c(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f), names_to = "Vardnbr", values_to = "Valdnbr") %>%
+ggplot(aes(x = factor(Vardnbr,level=level_order_dnbr_f2), y = Valdnbr, fill = veg_cat_t)) +
+  geom_boxplot()
+bp_ro_veg_cat_t_dnbr_f2 <- (bp_ro_veg_cat_t_dnbr_f2 + mynamestheme + ggtitle ("Rainforest open burnt/unburnt") + xlab("Time") +
+  ylab("dNBR")+ scale_x_discrete(labels=c( "aug2019mar2020_mean_dnbr_f"="p1","mar2020aug2020_mean_dnbr_f"="p2",
+                               "aug2020aug2021_mean_dnbr_f"="p3")))
+
+ grid.arrange(bp_ec_veg_cat_t_dnbr_f2, bp_eo_veg_cat_t_dnbr_f2,bp_rc_veg_cat_t_dnbr_f2,bp_ro_veg_cat_t_dnbr_f2, ncol=2)
+
+ #################################################################################################################################
+ ####################################dNBR_f by veg_cat LINES (PLOT BY FIRE INTENSITY) ########################################################   
+##WITH STANDARD ERROR OF THE MEAN
+
+##### create list by category burnt_cat
+b3_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("3"))
+b4_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("4"))
+b5_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("5"))
+b6_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("6"))
+b7_f<-dplyr::filter(rp_squares_4moments_variables_f, burnt_cat %in% c("7"))
+
+#b3
+lp_b3_veg_cat_dnbr_f2 <- b3_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b3_veg_cat_dnbr_f2 <- lp_b3_veg_cat_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b3_veg_cat_vardnbr_f2 <- pivot_longer(lp_b3_veg_cat_dnbr_f2, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b3_veg_cat_vardnbr_f2 <- pivot_longer(lp_b3_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b3_veg_cat_vardnbr_f2 <- pivot_longer(lp_b3_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b3_veg_cat_vardnbr_f2    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b3_veg_cat_vardnbr_f2 <- ggplot(data = lp_b3_veg_cat_vardnbr_f2, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dnbr", title = "Unburned") 
+                              
+                              
+
+ #################################################################################################################################
+#b4
+lp_b4_veg_cat_dnbr_f2 <- b4_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b4_veg_cat_dnbr_f2 <- lp_b4_veg_cat_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b4_veg_cat_vardnbr_f2 <- pivot_longer(lp_b4_veg_cat_dnbr_f2, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b4_veg_cat_vardnbr_f2 <- pivot_longer(lp_b4_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b4_veg_cat_vardnbr_f2 <- pivot_longer(lp_b4_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b4_veg_cat_vardnbr_f2    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b4_veg_cat_vardnbr_f2 <- ggplot(data = lp_b4_veg_cat_vardnbr_f2, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dnbr", title = "Low Severity") 
+   #################################################################################################################################
+#b5
+lp_b5_veg_cat_dnbr_f2 <- b5_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b5_veg_cat_dnbr_f2 <- lp_b5_veg_cat_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b5_veg_cat_vardnbr_f2 <- pivot_longer(lp_b5_veg_cat_dnbr_f2, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b5_veg_cat_vardnbr_f2 <- pivot_longer(lp_b5_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b5_veg_cat_vardnbr_f2 <- pivot_longer(lp_b5_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b5_veg_cat_vardnbr_f2    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b5_veg_cat_vardnbr_f2 <- ggplot(data = lp_b5_veg_cat_vardnbr_f2, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dnbr", title = "Mid-Low Severity") 
+                              
+                              
+
+ #################################################################################################################################
+#b6
+lp_b6_veg_cat_dnbr_f2 <- b6_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b6_veg_cat_dnbr_f2 <- lp_b6_veg_cat_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b6_veg_cat_vardnbr_f2 <- pivot_longer(lp_b6_veg_cat_dnbr_f2, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b6_veg_cat_vardnbr_f2 <- pivot_longer(lp_b6_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b6_veg_cat_vardnbr_f2 <- pivot_longer(lp_b6_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b6_veg_cat_vardnbr_f2    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b6_veg_cat_vardnbr_f2 <- ggplot(data = lp_b6_veg_cat_vardnbr_f2, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dnbr", title = "Mid-High Severity") 
+    #################################################################################################################################
+#b7
+lp_b7_veg_cat_dnbr_f2 <- b7_f %>%
+  group_by(veg_cat) %>% select(aug2019mar2020_mean_dnbr_f,mar2020aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b7_veg_cat_dnbr_f2 <- lp_b7_veg_cat_dnbr_f2 %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b7_veg_cat_vardnbr_f2 <- pivot_longer(lp_b7_veg_cat_dnbr_f2, cols = c(2:4),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+  lp_b7_veg_cat_vardnbr_f2 <- pivot_longer(lp_b7_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b7_veg_cat_vardnbr_f2 <- pivot_longer(lp_b7_veg_cat_vardnbr_f2, cols = c(2:4),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b7_veg_cat_vardnbr_f2    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019mar2020_mean_dnbr_f_mean", "mar2020aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b7_veg_cat_vardnbr_f2 <- ggplot(data = lp_b7_veg_cat_vardnbr_f2, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019mar2020_mean_dnbr_f_mean', 'mar2020aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1","p2",
+                              "p3"))+
+  labs (x = "Period", y = "dnbr", title = "High Severity") 
+
+grid.arrange(plotlp_b3_veg_cat_vardnbr_f2 , plotlp_b4_veg_cat_vardnbr_f2, ncol=1)
+grid.arrange(plotlp_b5_veg_cat_vardnbr_f2,plotlp_b6_veg_cat_vardnbr_f2, ncol=1)
+plot(plotlp_b7_veg_cat_vardnbr_f2)
+grid.arrange(plotlp_b3_veg_cat_vardnbr_f2 , plotlp_b4_veg_cat_vardnbr_f2,plotlp_b5_veg_cat_vardnbr_f2,plotlp_b6_veg_cat_vardnbr_f2,plotlp_b7_veg_cat_vardnbr_f2, ncol=3)
+
+#######considering only 2 moments in time (p1= aug2019-aug2020, p2=aug2020-aug2021)
+##WITH STANDARD ERROR OF THE MEAN
+
+#b3
+lp_b3_veg_cat_dnbr_f2_2mom <- b3_f %>%
+  group_by(veg_cat) %>% select(aug2019aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b3_veg_cat_dnbr_f2_2mom <- lp_b3_veg_cat_dnbr_f2_2mom %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b3_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b3_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+lp_b3_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b3_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b3_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b3_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b3_veg_cat_dnbr_f2_2mom    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b3_veg_cat_dnbr_f2_2mom <- ggplot(data = lp_b3_veg_cat_dnbr_f2_2mom, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1",
+                              "p2"))+
+  labs (x = "Period", y = "dNBR", title = "Unburned") 
+                              
+                              
+
+ #################################################################################################################################
+#b4
+lp_b4_veg_cat_dnbr_f2_2mom <- b4_f %>%
+  group_by(veg_cat) %>% select(aug2019aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b4_veg_cat_dnbr_f2_2mom <- lp_b4_veg_cat_dnbr_f2_2mom %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b4_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b4_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+lp_b4_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b4_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b4_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b4_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b4_veg_cat_dnbr_f2_2mom    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b4_veg_cat_dnbr_f2_2mom <- ggplot(data = lp_b4_veg_cat_dnbr_f2_2mom, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1",
+                              "p2"))+
+  labs (x = "Period", y = "dNBR", title = "Low Severity") 
+                              
+                              
+
+ #################################################################################################################################
+   #################################################################################################################################
+#b5
+lp_b5_veg_cat_dnbr_f2_2mom <- b5_f %>%
+  group_by(veg_cat) %>% select(aug2019aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b5_veg_cat_dnbr_f2_2mom <- lp_b5_veg_cat_dnbr_f2_2mom %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b5_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b5_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+lp_b5_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b5_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b5_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b5_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b5_veg_cat_dnbr_f2_2mom    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b5_veg_cat_dnbr_f2_2mom <- ggplot(data = lp_b5_veg_cat_dnbr_f2_2mom, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1",
+                              "p2"))+
+  labs (x = "Period", y = "dNBR", title = "Medium-Low Severity") 
+                              
+                              
+
+ #################################################################################################################################
+
+ #################################################################################################################################
+#b6
+lp_b6_veg_cat_dnbr_f2_2mom <- b6_f %>%
+  group_by(veg_cat) %>% select(aug2019aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b6_veg_cat_dnbr_f2_2mom <- lp_b6_veg_cat_dnbr_f2_2mom %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b6_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b6_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+lp_b6_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b6_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b6_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b6_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b6_veg_cat_dnbr_f2_2mom    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b6_veg_cat_dnbr_f2_2mom <- ggplot(data = lp_b6_veg_cat_dnbr_f2_2mom, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1",
+                              "p2"))+
+  labs (x = "Period", y = "dNBR", title = "Medium-High Severity") 
+                              
+                              
+
+ #################################################################################################################################
+    #################################################################################################################################
+#b7
+lp_b7_veg_cat_dnbr_f2_2mom <- b7_f %>%
+  group_by(veg_cat) %>% select(aug2019aug2020_mean_dnbr_f,aug2020aug2021_mean_dnbr_f, veg_cat)
+          
+#Summarizing and trying to make it long
+lp_b7_veg_cat_dnbr_f2_2mom <- lp_b7_veg_cat_dnbr_f2_2mom %>% summarize_each( list(mean=mean,sd=sd,se=std.error) )  
+
+          
+  
+  lp_b7_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b7_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "Varnbr",
+               values_to = c("Valnbr"))
+lp_b7_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b7_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSD",
+               values_to = c("ValSD"))
+   lp_b7_veg_cat_dnbr_f2_2mom <- pivot_longer(lp_b7_veg_cat_dnbr_f2_2mom, cols = c(2:3),
+               names_to = "VarSE",
+               values_to = c("ValSE"))
+               
+           lp_b7_veg_cat_dnbr_f2_2mom    %>%
+  mutate(Varnbr = factor(Varnbr, levels = c("aug2019aug2020_mean_dnbr_f_mean", "aug2020aug2021_mean_dnbr_f_mean")))
+  
+
+plotlp_b7_veg_cat_dnbr_f2_2mom <- ggplot(data = lp_b7_veg_cat_dnbr_f2_2mom, aes(x =Varnbr, y = Valnbr, group = veg_cat, colour = veg_cat)) + 
+  geom_line(size = 1.1) + 
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin=Valnbr-ValSE, ymax=Valnbr+ValSE), width=.1, position=position_dodge(width=0.1)) +
+  theme(
+  plot.title = element_text(family = "Helvetica", face = "bold", size = (15)),
+  legend.title = element_text(colour = "steelblue", face = "bold.italic", family = "Helvetica"),
+  legend.text = element_text(face = "italic", colour = "steelblue4", family = "Helvetica"),
+  axis.title = element_text(family = "Helvetica", size = (10), colour = "steelblue4"),
+  axis.text = element_text(family = "Courier", colour = "cornflowerblue", size = (10))) + 
+  scale_x_discrete(limits = c('aug2019aug2020_mean_dnbr_f_mean', 'aug2020aug2021_mean_dnbr_f_mean'), labels=c("p1",
+                              "p2"))+
+  labs (x = "Period", y = "dNBR", title = "High Severity") 
+                              
+                              
+
+ #################################################################################################################################
+
+grid.arrange(plotlp_b3_veg_cat_dnbr_f2_2mom , plotlp_b4_veg_cat_dnbr_f2_2mom, ncol=1)
+grid.arrange(plotlp_b5_veg_cat_dnbr_f2_2mom,plotlp_b6_veg_cat_dnbr_f2_2mom, ncol=1)
+plot(plotlp_b7_veg_cat_dnbr_f2_2mom)
+grid.arrange(plotlp_b3_veg_cat_dnbr_f2_2mom , plotlp_b4_veg_cat_dnbr_f2_2mom ,plotlp_b5_veg_cat_dnbr_f2_2mom ,plotlp_b6_veg_cat_dnbr_f2_2mom,plotlp_b7_veg_cat_dnbr_f2_2mom , ncol=3)
