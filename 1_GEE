@@ -1,0 +1,358 @@
+/**** Start of imports ****/
+/import AOI (=Area Of Interest)
+var geometry = ee.FeatureCollection("projects/ee-alessandrodanzi-thesis/assets/IBRA_select_coast_border"),
+/import Image Collection Sentinel 2
+    s2 = ee.ImageCollection("COPERNICUS/S2_SR"),
+/import of square samples and polygons created in GIS
+    euc_clos_burnt = ee.FeatureCollection("projects/ee-alessandrodanzi-thesis/assets/squares_euc_closed_burnt"),
+    poly3 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/grid12_6pol_p3"),
+    poly4 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/grid12_6pol_p4"),
+    poly5 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/grid12_6pol_p5"),
+    poly1 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/polygon1"),
+    poly2 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/polygon2"),
+    poly6 = ee.FeatureCollection("projects/ee-alessandrodanzi/assets/polygon6");
+/***** End of imports *****/
+/////////////// Constants 
+var grey = ['white', 'black'];
+var rgb_vis = {min: 0, max: 0.3, gamma: 1.5};
+var nbr_palette = ['red', 'white', 'green'];
+var ndvi_palette = ['FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718',
+               '74A901', '66A000', '529400', '3E8601', '207401', '056201',
+               '004C00', '023B01', '012E01', '011D01', '011301'];
+////////////////////"Geometry"////////////////////////////
+var geometry = ee.FeatureCollection(geometry);
+Map.addLayer (geometry, {}, "IBRA", false);
+
+var euc_clos_burnt = ee.FeatureCollection(euc_clos_burnt);
+Map.addLayer (euc_clos_burnt, {}, "euc_clos_burnt", false);
+
+
+var poly3 = ee.FeatureCollection(poly3);
+
+var poly4 = ee.FeatureCollection(poly4);
+
+var poly5 = ee.FeatureCollection(poly5);
+
+var poly1 = ee.FeatureCollection(poly1);
+
+var poly2 = ee.FeatureCollection(poly2);
+
+var poly6 = ee.FeatureCollection(poly6);
+
+
+//////////////////////"Cloud masking"////////////////////////////
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+
+  // Bits 10 and 11 are clouds and cirrus, respectively.
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+      .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+
+  return image.updateMask(mask).divide(10000);
+}
+
+
+//////////////// Functions ////////////////
+function addNDVI(image) {
+  var ndvi = image.normalizedDifference(['B8', 'B4']); // Sentinel 2
+  return image.addBands(ndvi.rename('ndvi'));
+}
+////////////////NBR//////////////////
+
+function addNBR(image) {
+  var nbr = image.normalizedDifference(['B8', 'B12']); // Sentinel 2
+  return image.addBands(nbr.rename('nbr'));
+}
+
+////////////////EVI//////////////////
+function addEVI(image){
+  var EVI = image.expression(
+      '2.5 * ((NIR - RED) / (NIR + 6 * RED - 7.5 * BLUE + 1))', {
+      'NIR' : image.select('B8'),
+      'RED' : image.select('B4'),
+      'BLUE': image.select('B2')}).rename('EVI');
+      return image.addBands(EVI)}
+      
+//////////////// Aug2019 ////////////////
+var aug2019 = s2.filterDate('2019-08-01', '2019-09-30')
+               .filterBounds(geometry)
+               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than', 5)
+               .map(maskS2clouds);
+var aug2019_indices = aug2019.map(addNDVI)
+                             .map(addNBR)
+                             .map(addEVI)
+                             .map(function(image){return image.clip(geometry)});
+var aug2019greenest = aug2019_indices.qualityMosaic('ndvi');
+
+var s2bands_aug2019 = aug2019greenest.select([1,2,3,7,11,23,24,25]);
+//var s2Rbands_aug2019 = aug2019greenest.select(ee.List.sequence(0,11));
+
+Map.addLayer(aug2019greenest, {min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB (aug2019 greenest pixel)', false);
+Map.addLayer(s2bands_aug2019,{min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB_selected_bands (aug2019 greenest pixel)', false);
+
+Map.addLayer (poly3, {}, "poly3", false);
+Map.addLayer (poly4, {}, "poly4", false);
+Map.addLayer (poly5, {}, "poly5", false);
+Map.addLayer (poly1, {}, "poly1", false);
+Map.addLayer (poly2, {}, "poly2", false);
+Map.addLayer (poly6, {}, "poly6", false);
+
+////////////////EXPORT 3 polygons////////////////
+// Export the image, specifying scale and region.
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly3_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly3
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly4_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly4
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly5_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly5
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly1_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly1
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly2_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly2
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2019.toFloat(),
+  description: 'S2R_poly6_aug2019',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly6
+});
+
+//////////////// March2020 ////////////////
+var mar2020 = s2.filterDate('2020-03-01', '2020-05-31')
+               .filterBounds(geometry)
+               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than', 5)
+               .map(maskS2clouds);
+var mar2020_indices = mar2020.map(addNDVI)
+                             .map(addNBR)
+                             .map(addEVI)
+                             .map(function(image){return image.clip(geometry)});
+var mar2020greenest = mar2020_indices.qualityMosaic('ndvi');
+
+var s2bands_mar2020 = mar2020greenest.select([1,2,3,7,11,23,24,25]);
+
+Map.addLayer(mar2020greenest, {min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB (mar2020 greenest pixel)', false);
+Map.addLayer(s2bands_mar2020,{min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB_selected_bands (mar2020 greenest pixel)', false);
+
+
+////////////////EXPORT 3 polygons////////////////
+// Export the image, specifying scale and region.
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly3_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly3
+});
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly4_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly4
+});
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly5_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly5
+});
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly1_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly1
+});
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly2_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly2
+});
+
+Export.image.toDrive({
+  image: s2bands_mar2020.toFloat(),
+  description: 'S2R_poly6_mar2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly6
+});
+
+//////////////// Aug2020 ////////////////
+var aug2020 = s2.filterDate('2020-08-01', '2020-09-30')
+               .filterBounds(geometry)
+               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than', 5)
+               .map(maskS2clouds);
+var aug2020_indices = aug2020.map(addNDVI)
+                             .map(addNBR)
+                             .map(addEVI)
+                             .map(function(image){return image.clip(geometry)});
+var aug2020greenest = aug2020_indices.qualityMosaic('ndvi');
+
+var s2bands_aug2020 = aug2020greenest.select([1,2,3,7,11,23,24,25]);
+
+Map.addLayer(aug2020greenest, {min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB (aug2020 greenest pixel)', false);
+Map.addLayer(s2bands_aug2020,{min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB_selected_bands (aug2020 greenest pixel)', false);
+
+
+////////////////EXPORT 3 polygons////////////////
+// Export the image, specifying scale and region.
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly3_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly3
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly4_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly4
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly5_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly5
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly1_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly1
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly2_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly2
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2020.toFloat(),
+  description: 'S2R_poly6_aug2020',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly6
+});
+
+//////////////// Aug2021 ////////////////
+var aug2021 = s2.filterDate('2021-08-01', '2021-09-30')
+               .filterBounds(geometry)
+               .filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than', 10)
+               .map(maskS2clouds);
+var aug2021_indices = aug2021.map(addNDVI)
+                             .map(addNBR)
+                             .map(addEVI)
+                             .map(function(image){return image.clip(geometry)});
+var aug2021greenest = aug2021_indices.qualityMosaic('ndvi');
+
+var s2bands_aug2021 = aug2021greenest.select([1,2,3,7,11,23,24,25]);
+
+Map.addLayer(aug2021greenest, {min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB (aug2021 greenest pixel)', false);
+Map.addLayer(s2bands_aug2021,{min: 0, max: 0.3, gamma: 1.5,bands: ['B4', 'B3', 'B2']}, 'RGB_selected_bands (aug2021 greenest pixel)', false);
+
+
+
+////////////////EXPORT 3 polygons////////////////
+// Export the image, specifying scale and region.
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly3_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly3
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly4_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly4
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly5_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly5
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly1_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly1
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly2_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly2
+});
+
+Export.image.toDrive({
+  image: s2bands_aug2021.toFloat(),
+  description: 'S2R_poly6_aug2021',
+  scale: 20,
+  crs:'EPSG:3577',
+  region: poly6
+});
